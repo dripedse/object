@@ -1,0 +1,7 @@
+
+import federico.*
+test "Cantante favorito de Federico" {
+
+	assert.equals("Brandon Boyd", federico.cantanteFavorito())
+
+}
