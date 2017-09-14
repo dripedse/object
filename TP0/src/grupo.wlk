@@ -4,3 +4,8 @@ object federico {
 	}
 }
 
+object juan {
+	method cantanteFavorito () {
+		return "Chizzo"
+	}
+}
