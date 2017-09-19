@@ -1,4 +1,3 @@
-
 import federico.*
 test "Cantante favorito de Federico" {
 
@@ -10,5 +9,12 @@ import juan.*
 test "Cantante favorito de Juan" {
 
 	assert.equals("Chizzo", juan.cantanteFavorito())
+
+}
+
+import patricio.*
+test "Cantante favorito de Patricio" {
+
+	assert.equals("Chester Bennington", patricio.cantanteFavorito())
 
 }
