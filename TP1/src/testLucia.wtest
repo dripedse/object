@@ -1,0 +1,30 @@
+import MusicGuide.*
+
+describe "Tests de Lucia" {
+
+	test "Habilidad de lucia en grupo pimpinela es 50" {
+		lucia.grupo("pimpinela")
+		assert.equals(50, lucia.habilidad())
+	}
+	
+	test "Habilidad de lucia como solista es 70" {
+		lucia.dejarGrupo()
+		assert.equals(70, lucia.habilidad())
+	}
+	
+	test "Lucia interpreta bien la cancion La Familia" {
+		assert.equals(true, lucia.interpretaBien(laFamilia))
+	}
+	
+	test "Lucia no interpreta bien la cancion Cisne" {
+		assert.equals(false, lucia.interpretaBien(cisne))
+	}
+	
+	test "Lucia cobra 500 por la presentacion del Luna Park" {
+		assert.equals(500, lucia.cobraPor(presentacionLuna))
+	}
+	
+	test "Lucia cobra 400 por la presentacion de La Trastienda" {
+		assert.equals(400, lucia.cobraPor(presentacionTrastienda))
+	}
+}
