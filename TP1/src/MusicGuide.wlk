@@ -38,9 +38,9 @@ object joaquin inherits Musico("Pimpinela", 20){
 	
 	override method cobraPor ( presentacion ) {
 		if ( self.tocaSolo(presentacion) )
-			return 50
+			return 100
 		else 
-			return 100//toca solo	
+			return 50//toca solo	
 		// y si no esta en la presentacion???
 	}
 	
