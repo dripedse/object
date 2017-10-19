@@ -9,6 +9,14 @@ describe "Tests primera entrega" {
 	var laFamilia = new Cancion("La Familia", 264, "Quiero brindar
 	por​ ​mi​ ​gente​ ​sencilla,​ ​por​ ​el​ ​amor​ ​brindo​ ​por​ ​la​ ​familia")
 	
+	var presentacionLuna = new Presentacion([luisAlberto, joaquin, lucia], 
+	new Date(20,04,2017), lunaPark)
+
+
+	var presentacionTrastienda = new Presentacion([luisAlberto, joaquin, lucia],
+	new Date(15,11,2017), laTrastienda)
+
+	
 	test "Habilidad de joaquin en grupo pimpinela es 25" {
 		joaquin.grupo("pimpinela")
 		assert.equals(25, joaquin.habilidad())
@@ -68,13 +76,13 @@ describe "Tests primera entrega" {
 	}
 	
 	test "Habilidad de Luis Alberto tocando con la Gibson sana es 100" {
-		gibson.estaSana(true)
+		gibson.arreglar()
 		luisAlberto.usarGuitarra(gibson)
 		assert.equals(100, luisAlberto.habilidad())
 	}
 	
 	test "Habilidad de Luis Alberto tocando con la Gibson dañada es 40" {
-		gibson.estaSana(false)
+		gibson.romper()
 		luisAlberto.usarGuitarra(gibson)
 		assert.equals(40, luisAlberto.habilidad())
 	}

@@ -71,14 +71,8 @@ object lucia{
 }
 
 object luisAlberto{
-	var grupo = null
 	var habilidad = 8
 	var guitarra = fender
-	
-	method grupo() = grupo
-	method grupo(_grupo) {
-		grupo = _grupo
-	}	
 	
 	method guitarra() = guitarra
 	
@@ -97,11 +91,7 @@ object luisAlberto{
 		if ( presentacion.fecha() <= ( new Date(30,9,2017) ) )
 			return 1000
 		return 1200
-	}
-	
-	method dejarGrupo(){
-		grupo = null
-	}		
+	}	
 }
 
 /*CANCIONES
@@ -121,7 +111,7 @@ class Cancion{
 	method duracion() = duracion
 	method letra() = letra
 	
-	method letraTienePalabra(palabra) = self.letra().toLowerCase().contains(palabra.toLowerCase())
+	method letraTienePalabra(palabra) = letra.toLowerCase().contains(palabra.toLowerCase())
 }
 /*
 object cisne inherits Cancion("Cisne", 312, "Hoy el viento se
@@ -152,26 +142,14 @@ class Presentacion {
 	method lugar() = lugar		
 	method fecha() = fecha
 	
-	method costo(){
-		return musicos.sum{musico => musico.cobraPor(self)}
-	}
+	method costo() = musicos.sum{musico => musico.cobraPor(self)}
 	
 	method tocaSolo ( unMusico ){
-		return (self.musicos().contains(unMusico) && self.musicos().size() == 1)
+		return (musicos.contains(unMusico) && musicos.size() == 1)
 	}
 	
-	method esEnLugarConcurrido () = self.lugar().esConcurrido(self.fecha());
+	method esEnLugarConcurrido () = lugar.esConcurrido(fecha);
 }
-
-object presentacionLuna inherits Presentacion([luisAlberto, joaquin, lucia], 
-	new Date(20,04,2017), lunaPark
-)
-{}
-
-object presentacionTrastienda inherits Presentacion([luisAlberto, joaquin, lucia],
-	new Date(15,11,2017), laTrastienda
-)
-{}
 
 /*LUGARES
 /**************************************************************************/
@@ -224,5 +202,13 @@ object gibson{
 			return ug
 		else
 			return 5
+	}
+	
+	method romper(){
+		estaSana = false
+	}
+	
+	method arreglar(){
+		estaSana = true
 	}
 }
