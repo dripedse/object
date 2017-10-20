@@ -1,0 +1,71 @@
+import MusicGuide.*
+
+describe "Tests segunda entrega" {
+
+	test "Crisantemo es cancion corta" {
+		assert.that(crisantemo.esCorta())
+	}
+	
+	test "Alma de Diamante no es cancion corta" {
+		assert.notThat(almaDeDiamante.esCorta())
+	}
+	
+	test "Soledad es minimalista" {
+		assert.that(soledad.esMinimalista())
+	}
+	
+	test "Luis Alberto no es minimalista" {
+		assert.notThat(luisAlberto.esMinimalista())
+	}
+	
+	test "Joaquin no es minimalista" {
+		assert.notThat(joaquin.esMinimalista())
+	}
+	
+	test "Las canciones de Luis Alberto que contienen la palabra 'cielo' son Crisantemo y Alma de Diamante" {
+		assert.that(luisAlberto.cancionesConPalabra("cielo").contains(crisantemo) 
+			&& luisAlberto.cancionesConPalabra("cielo").contains(almaDeDiamante)
+		)
+	}
+	
+	test "Ninguna cancion de Luis Alberto contiene la palabra 'pujante" {
+		assert.equals(0, luisAlberto.cancionesConPalabra("pujante").size())
+	}
+
+	test "La obra de Kike dura 0 segundos" {
+		assert.equals(0, kike.duracionObra())
+	}	
+
+	test "La obra de Soledad dura 299 segundos" {
+		assert.equals(299, soledad.duracionObra())
+	}	
+	
+	test "La obra de Luis Alberto dura 703 segundos" {
+		assert.equals(703, luisAlberto.duracionObra())
+	}	
+	
+	test "La cancion mas larga del album 'Para los Arboles' es 'Alma de Diamante'" {
+		assert.equals(almaDeDiamante, paraLosArboles.cancionMasLarga())
+	}
+	
+	test "La cancion mas larga del album 'La Sole' es 'Eres'" {
+		assert.equals(eres, laSole.cancionMasLarga())
+	}
+
+	test "La cancion mas larga del album 'Especial La Familia' es 'La Familia'" {
+		assert.equals(laFamilia, especialLaFamilia.cancionMasLarga())
+	}
+	
+	test "Luis Alberto la pego" {
+		assert.that(luisAlberto.laPego())
+	}
+	
+	test "Soledad no la pego" {
+		assert.notThat(soledad.laPego())
+	}
+	
+	test "Joaquin la pego" {
+		assert.that(joaquin.laPego())
+	}
+		
+}
