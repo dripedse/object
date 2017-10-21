@@ -1,0 +1,224 @@
+import MusicGuide.*
+
+describe "Tests primera entrega" {
+
+	/*CANCIONES
+	/**************************************************************************/
+	var cisne = new Cancion("Cisne", 312, "Hoy el viento se 
+	abrió quedó vacío el aire una vez más y el manantial brotó y nadie está 
+	aquí​ ​y​ ​puedo​ ​ver​ ​que​ ​solo​ ​estallan​ ​las​ ​hojas​ ​al​ ​brillar")
+	
+	var laFamilia = new Cancion("La Familia", 264, "Quiero brindar 
+	por​ ​mi​ ​gente​ ​sencilla,​ ​por​ ​el​ ​amor​ ​brindo​ ​por​ ​la​ ​familia")
+	
+	var eres = new Cancion("Eres", 145, "Eres lo mejor que me pasó en la vida,  
+	no tengo duda, no habrá más nada después de ti. Eres lo que le dio brillo al día 
+	a día, y así será por siempre, no cambiará, hasta el final de mis días.")
+	
+	var corazonAmericano = new Cancion("Corazon Americano", 154, "Canta corazón, 
+	canta más alto, que tu pena al fin se va marchando, el nuevo milenio ha de encontrarnos, 
+	junto corazón, como soñamos.")
+	
+	var almaDeDiamante = new Cancion("Alma de diamante", 216, "Ven a mí con tu dulce luz 
+	alma de diamante. Y aunque el sol se nuble después sos alma de diamante. Cielo o piel silencio 
+	o verdad sos alma de diamante. Por eso ven así con la humanidad alma de diamante")
+	
+	var crisantemo = new Cancion("Crisantemo", 175, "Tócame junto a esta pared, yo quede 
+	por aquí... cuando no hubo más luz... quiero mirar a través de mi piel... Crisantemo, que se 
+	abrió... encuentra el camino hacia el cielo")
+	
+	/*ALBUMS
+	/**************************************************************************/
+	var especialLaFamilia = new Album("Especial La Familia", [laFamilia], new Date (17,06,1992), 100000, 89000)
+	var laSole = new Album("La Sole", [eres, corazonAmericano], new Date (4,2,2005), 200000, 130000)
+	var paraLosArboles = new Album("Para Los Arboles", [cisne, almaDeDiamante], new Date (31,3,2003), 50000, 49000)
+	var justCrisantemo = new Album("Just Crisantemo", [crisantemo], new Date (05,12,2007), 28000, 27500)
+
+	/*MUSICOS
+	/**************************************************************************/	
+	var joaquin = new MusicoDeGrupo("Pimpinela", 20, 5)
+	var lucia = new VocalistaPopular("Pimpinela", 70, "familia")
+	var kike = new MusicoDeGrupo(null, 60, 20)
+	var soledad = new VocalistaPopular(null, 55, "amor")
+
+	/*PRESENTACIONES
+	/**************************************************************************/
+	var presentacionLuna = new Presentacion([luisAlberto, joaquin, lucia], 
+		new Date(20,04,2017), lunaPark)	
+	var presentacionTrastienda = new Presentacion([luisAlberto, joaquin, lucia],
+		new Date(15,11,2017), laTrastienda)
+		
+	fixture {
+		soledad.agregarAlbums([laSole])
+		joaquin.agregarAlbums([especialLaFamilia])
+		luisAlberto.agregarAlbums([paraLosArboles, justCrisantemo])
+	}	
+	
+	test "Habilidad de joaquin en grupo pimpinela es 25" {
+		joaquin.grupo("pimpinela")
+		assert.equals(25, joaquin.habilidad())
+	}
+	
+	test "Habilidad de joaquin como solista es 20" {
+		joaquin.dejarGrupo()
+		assert.equals(20, joaquin.habilidad())
+	}
+	
+	test "Joaquin no interpreta bien la cancion La Familia" {
+		assert.notThat(joaquin.interpretaBien(laFamilia))
+	}
+	
+	test "Joaquin interpreta bien la cancion Cisne" {
+		assert.that(joaquin.interpretaBien(cisne))
+	}
+	
+	test "Joaquin cobra 50 por la presentacion del Luna Park" {
+		assert.equals(50, joaquin.cobraPor(presentacionLuna))
+	}
+	
+	test "Joaquin cobra 100 por la presentacion de La Trastienda si actua solo" {
+		presentacionTrastienda.musicos([joaquin])
+		assert.equals(100, joaquin.cobraPor(presentacionTrastienda))
+	}
+	
+	test "Habilidad de lucia en grupo pimpinela es 50" {
+		lucia.grupo("pimpinela")
+		assert.equals(50, lucia.habilidad())
+	}
+	
+	test "Habilidad de lucia como solista es 70" {
+		lucia.dejarGrupo()
+		assert.equals(70, lucia.habilidad())
+	}
+	
+	test "Lucia interpreta bien la cancion La Familia" {
+		assert.that(lucia.interpretaBien(laFamilia))
+	}
+	
+	test "Lucia no interpreta bien la cancion Cisne" {
+		assert.notThat(lucia.interpretaBien(cisne))
+	}
+	
+	test "Lucia cobra 500 por la presentacion del Luna Park" {
+		assert.equals(500, lucia.cobraPor(presentacionLuna))
+	}
+	
+	test "Lucia cobra 400 por la presentacion de La Trastienda" {
+		assert.equals(400, lucia.cobraPor(presentacionTrastienda))
+	}
+	
+	test "Habilidad de Luis Alberto tocando con la Fender es 80" {
+		luisAlberto.usarGuitarra(fender)
+		assert.equals(80, luisAlberto.habilidad())
+	}
+	
+	test "Habilidad de Luis Alberto tocando con la Gibson sana es 100" {
+		gibson.arreglar()
+		luisAlberto.usarGuitarra(gibson)
+		assert.equals(100, luisAlberto.habilidad())
+	}
+	
+	test "Habilidad de Luis Alberto tocando con la Gibson dañada es 40" {
+		gibson.romper()
+		luisAlberto.usarGuitarra(gibson)
+		assert.equals(40, luisAlberto.habilidad())
+	}
+	
+	test "Luis Alberto interpreta bien la cancion La Familia" {
+		assert.that(luisAlberto.interpretaBien(laFamilia))
+	}
+	
+	test "Luis Alberto interpreta bien la cancion Cisne" {
+		assert.that(luisAlberto.interpretaBien(cisne))
+	}	
+	
+	test "Luis Alberto cobra 1000 por la presentacion del Luna Park" {
+		assert.equals(1000, luisAlberto.cobraPor(presentacionLuna))
+	}
+	
+	test "Luis Alberto cobra 1200 por la presentacion de La Trastienda" {
+		assert.equals(1200, luisAlberto.cobraPor(presentacionTrastienda))
+	}
+	
+	test "La capacidad de la Trastienda para el 5/8/17 es 700" {
+		assert.equals(700, laTrastienda.capacidad(new Date(5,8,17)))
+	}
+	
+	test "La capacidad de la Trastienda para el 8/8/17 es 400" {
+		assert.equals(400, laTrastienda.capacidad(new Date(8,8,17)))
+	}
+	
+	test "El costo de la presentacion del Luna Park es 1550" {
+		assert.equals(1550, presentacionLuna.costo())
+	}
+	
+	test "El costo de la presentacion de La Trastienda es 1650" {
+		assert.equals(1650, presentacionTrastienda.costo())
+	}
+	
+	/*Tests Entrega 2
+	/**************************************************************************/
+	test "Crisantemo es cancion corta" {
+		assert.that(crisantemo.esCorta())
+	}
+	
+	test "Alma de Diamante no es cancion corta" {
+		assert.notThat(almaDeDiamante.esCorta())
+	}
+	
+	test "Soledad es minimalista" {
+		assert.that(soledad.esMinimalista())
+	}
+	
+	test "Luis Alberto no es minimalista" {
+		assert.notThat(luisAlberto.esMinimalista())
+	}
+	
+	test "Joaquin no es minimalista" {
+		assert.notThat(joaquin.esMinimalista())
+	}
+	
+	test "Las canciones de Luis Alberto que contienen la palabra 'cielo' son Crisantemo y Alma de Diamante" {
+		assert.that(luisAlberto.cancionesConPalabra("cielo") == [almaDeDiamante, crisantemo])
+	}
+	
+	test "Ninguna cancion de Luis Alberto contiene la palabra 'pujante" {
+		assert.that(luisAlberto.cancionesConPalabra("pujante") == [])
+	}
+
+	test "La obra de Kike dura 0 segundos" {
+		assert.equals(0, kike.duracionObra())
+	}	
+
+	test "La obra de Soledad dura 299 segundos" {
+		assert.equals(299, soledad.duracionObra())
+	}	
+	
+	test "La obra de Luis Alberto dura 703 segundos" {
+		assert.equals(703, luisAlberto.duracionObra())
+	}	
+	
+	test "La cancion mas larga del album 'Para los Arboles' es 'Alma de Diamante'" {
+		assert.equals(almaDeDiamante, paraLosArboles.cancionMasLarga())
+	}
+	
+	test "La cancion mas larga del album 'La Sole' es 'Eres'" {
+		assert.equals(eres, laSole.cancionMasLarga())
+	}
+
+	test "La cancion mas larga del album 'Especial La Familia' es 'La Familia'" {
+		assert.equals(laFamilia, especialLaFamilia.cancionMasLarga())
+	}
+	
+	test "Luis Alberto la pego" {
+		assert.that(luisAlberto.laPego())
+	}
+	
+	test "Soledad no la pego" {
+		assert.notThat(soledad.laPego())
+	}
+	
+	test "Joaquin la pego" {
+		assert.that(joaquin.laPego())
+	}
+}

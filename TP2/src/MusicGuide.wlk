@@ -5,10 +5,9 @@ class Musico {
 	var habilidad
 	var albums =[]
 	
-	constructor(_grupo, _habilidad, _albums){
+	constructor(_grupo, _habilidad){
 		grupo = _grupo
 		habilidad = _habilidad
-		albums = _albums
 	}
 			
 	method grupo() = grupo
@@ -20,6 +19,8 @@ class Musico {
 	method habilidad(_habilidad){
 		habilidad = _habilidad
 	}
+	
+	method albums() = albums
 	
 	method dejarGrupo(){
 		grupo = null
@@ -37,25 +38,24 @@ class Musico {
 	
 	method laPego() = albums.all{ album => album.tieneBuenasVentas()}
 	
-	method canciones() {
-		const canciones = []
-		albums.forEach{ album => canciones.addAll(album.canciones()) }
-		return canciones
+	method canciones() = albums.map{ album => album.canciones()}.flatten()
+	
+	method agregarAlbums( _albums) {
+		albums.addAll(_albums)
 	}
 }
 
 class MusicoDeGrupo inherits Musico{
 	var bonusGrupo
 	
-	constructor(_grupo, _habilidad, _albums, _bonusGrupo) = super(_grupo, _habilidad, _albums) {
+	constructor(_grupo, _habilidad, _bonusGrupo) = super(_grupo, _habilidad) {
 		bonusGrupo = _bonusGrupo
 	}
 	
 	override method habilidad(){
-		if ( grupo != null )
+		if ( self.tocaEnGrupo() )
 			return (habilidad + bonusGrupo)
-		else
-			return habilidad			
+		return habilidad			
 	}	
 	
 	method interpretaBien ( cancion ) = cancion.duracion() > 300
@@ -75,15 +75,14 @@ class MusicoDeGrupo inherits Musico{
 class VocalistaPopular inherits Musico{
 	var palabraClave
 	
-	constructor(_grupo, _habilidad, _albums, _palabraClave) = super(_grupo, _habilidad, _albums) {
+	constructor(_grupo, _habilidad, _palabraClave) = super(_grupo, _habilidad) {
 		palabraClave = _palabraClave
 	}
 		
 	override method habilidad (){
-		if ( grupo != null )
+		if ( self.tocaEnGrupo() )
 			return habilidad - 20
-		else
-			return habilidad		
+		return habilidad		
 	}
 	
 	method interpretaBien ( cancion ) = cancion.letraTienePalabra(palabraClave)
@@ -95,7 +94,7 @@ class VocalistaPopular inherits Musico{
 	}		
 }
 
-object luisAlberto inherits Musico(null, 8, [paraLosArboles, justCrisantemo]) {
+object luisAlberto inherits Musico(null, 8) {
 	var guitarra = fender
 	
 	method guitarra() = guitarra
@@ -114,11 +113,6 @@ object luisAlberto inherits Musico(null, 8, [paraLosArboles, justCrisantemo]) {
 		return 1200
 	}
 }
-
-object joaquin inherits MusicoDeGrupo("Pimpinela", 20, [especialLaFamilia], 5){}
-object lucia inherits VocalistaPopular("Pimpinela", 70, [], "familia"){}
-object kike inherits MusicoDeGrupo(null, 60, [], 20){}
-object soledad inherits VocalistaPopular(null, 55, [laSole], "amor"){}
 
 /*PRECENTACIONES
 /**************************************************************************/
@@ -148,16 +142,6 @@ class Presentacion {
 	
 	method esEnLugarConcurrido () = lugar.esConcurrido(fecha);
 }
-
-object presentacionLuna inherits Presentacion([luisAlberto, joaquin, lucia], 
-	new Date(20,04,2017), lunaPark
-)
-{}
-
-object presentacionTrastienda inherits Presentacion([luisAlberto, joaquin, lucia],
-	new Date(15,11,2017), laTrastienda
-)
-{}
 
 /*LUGARES
 /**************************************************************************/
@@ -236,33 +220,10 @@ class Cancion{
 	method nombre() = nombre
 	method duracion() = duracion
 	method letra() = letra
-	method largo() = letra.size()
+	method largo() = letra.split(' ').size()
 	method esCorta() = duracion < 180
 	method letraTienePalabra(palabra) = letra.toLowerCase().contains(palabra.toLowerCase())
 }
-
-object cisne inherits Cancion("Cisne", 312, "Hoy el viento se
-abrió quedó vacío el aire una vez más y el manantial brotó y nadie está
-aquí​ ​y​ ​puedo​ ​ver​ ​que​ ​solo​ ​estallan​ ​las​ ​hojas​ ​al​ ​brillar"){}
-
-object laFamilia inherits Cancion("La Familia", 264, "Quiero brindar
-por​ ​mi​ ​gente​ ​sencilla,​ ​por​ ​el​ ​amor​ ​brindo​ ​por​ ​la​ ​familia"){}
-
-object eres inherits Cancion("Eres", 145, "Eres lo mejor que me pasó en la vida, 
-no tengo duda, no habrá más nada después de ti. Eres lo que le dio brillo al día 
-a día, y así será por siempre, no cambiará, hasta el final de mis días."){}
-
-object corazonAmericano inherits Cancion("Corazon Americano", 154, "Canta corazón, 
-canta más alto, que tu pena al fin se va marchando, el nuevo milenio ha de encontrarnos, 
-junto corazón, como soñamos."){}
-
-object almaDeDiamante inherits Cancion("Alma de diamante", 216, "Ven a mí con tu dulce luz 
-alma de diamante. Y aunque el sol se nuble después sos alma de diamante. Cielo o piel silencio 
-o verdad sos alma de diamante. Por eso ven así con la humanidad alma de diamante"){}
-
-object crisantemo inherits Cancion("Crisantemo", 175, "Tócame junto a esta pared, yo quede 
-por aquí... cuando no hubo más luz... quiero mirar a través de mi piel... Crisantemo, que se 
-abrió... encuentra el camino hacia el cielo"){}
 
 /*ALBUMS
 /**************************************************************************/
@@ -290,14 +251,5 @@ class Album{
 	method duracion() = canciones.sum{ cancion => cancion.duracion() }
 	method esMinimalista() = canciones.all{cancion => cancion.esCorta()}
 	method cancionMasLarga() = canciones.max{cancion => cancion.largo()}
-	method tieneBuenasVentas() {
-		if ( unidadesVendidas * 100 / unidadesSalieronALaVenta > 75)
-			return true
-		return false
-	}
+	method tieneBuenasVentas() = unidadesVendidas * 100 / unidadesSalieronALaVenta > 75
 }
-
-object especialLaFamilia inherits Album("Especial La Familia", [laFamilia], new Date (17,06,1992), 100000, 89000){}
-object laSole inherits Album("La Sole", [eres, corazonAmericano], new Date (4,2,2005), 200000, 130000){}
-object paraLosArboles inherits Album("Para Los Arboles", [cisne, almaDeDiamante], new Date (31,3,2003), 50000, 49000){}
-object justCrisantemo inherits Album("Just Crisantemo", [crisantemo], new Date (05,12,2007), 28000, 27500){}
