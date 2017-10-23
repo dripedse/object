@@ -179,11 +179,11 @@ describe "Tests primera entrega" {
 	}
 	
 	test "Las canciones de Luis Alberto que contienen la palabra 'cielo' son Crisantemo y Alma de Diamante" {
-		assert.that(luisAlberto.cancionesConPalabra("cielo") == [almaDeDiamante, crisantemo])
+		assert.equals( [almaDeDiamante, crisantemo], luisAlberto.cancionesConPalabra("cielo"))
 	}
 	
 	test "Ninguna cancion de Luis Alberto contiene la palabra 'pujante" {
-		assert.that(luisAlberto.cancionesConPalabra("pujante") == [])
+		assert.equals( [], luisAlberto.cancionesConPalabra("pujante") )
 	}
 
 	test "La obra de Kike dura 0 segundos" {

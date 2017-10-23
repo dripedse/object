@@ -38,7 +38,7 @@ class Musico {
 	
 	method laPego() = albums.all{ album => album.tieneBuenasVentas()}
 	
-	method canciones() = albums.map{ album => album.canciones()}.flatten()
+	method canciones() = albums.flatMap{ album => album.canciones()}
 	
 	method agregarAlbums( _albums) {
 		albums.addAll(_albums)
@@ -220,7 +220,7 @@ class Cancion{
 	method nombre() = nombre
 	method duracion() = duracion
 	method letra() = letra
-	method largo() = letra.split(' ').size()
+	method largo() = letra.words().size()
 	method esCorta() = duracion < 180
 	method letraTienePalabra(palabra) = letra.toLowerCase().contains(palabra.toLowerCase())
 }
