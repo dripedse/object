@@ -95,11 +95,12 @@ describe "Tests primera entrega" {
 		assert.that(lucia.interpretaBien(laFamilia))
 	}
 	
-	test "Lucia interpreta bien la cancion Cisne" {
+	test "Lucia interpreta bien la cancion Cisne como solista" {
+		lucia.dejarGrupo()
 		assert.that(lucia.interpretaBien(cisne))
 	}
 	
-	test "Lucia interpreta bien la cancion Cisne, en el grupo Pimpinela" {
+	test "Lucia no interpreta bien la cancion Cisne en el grupo Pimpinela" {
 		lucia.grupo("Pimpinela")
 		assert.notThat(lucia.interpretaBien(cisne))
 	}	

@@ -48,7 +48,7 @@ class Musico {
 	
 	method esAutorDe(cancion) = self.canciones().contains(cancion)
 	
-	method interpretaBien(cancion) = habilidad > 60 || self.esAutorDe(cancion)
+	method interpretaBien(cancion) = self.habilidad() > 60 || self.esAutorDe(cancion)
 
 }
 
