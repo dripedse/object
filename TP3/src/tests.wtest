@@ -244,6 +244,11 @@ describe "Tests primera entrega" {
 	es “Eres”"{
 		assert.equals(eres, laSole.cancionMasLarga(criterioLargoLetra))
 	}	
+
+	test "La canción más larga del álbum “La Sole”"{
+		assert.equals(eres, laSole.cancionMasLarga{can => can.largo()})
+	}	
+	
 	
 	test "El remix de 'La Familia' dura 792 segundos"{
 		assert.equals(792, remixLaFamilia.duracion())
@@ -264,7 +269,7 @@ describe "Tests primera entrega" {
 	
 	test "Luis Aberto puede ser agregado al Pdpalooza"{
 		pdpalooza.agregarMusico(luisAlberto)
-		assert.that(pdpalooza.musicos().contains(luisAlberto))
+		assert.that(pdpalooza.participaElMusico(luisAlberto))
 	}
 	
 	test "No se puede agregar a Joaquin como solista al pdpalooza"{
@@ -287,6 +292,6 @@ describe "Tests primera entrega" {
 	test "Se puede agregar a Soledad, con habilidad 80, al pdpalooza"{
 		soledad.habilidad(80)
 		pdpalooza.agregarMusico(soledad)
-		assert.that(pdpalooza.musicos().contains(soledad))
+		assert.that(pdpalooza.participaElMusico(soledad))
 	}			
 }

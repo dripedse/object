@@ -48,7 +48,12 @@ class Musico {
 	
 	method esAutorDe(cancion) = self.canciones().contains(cancion)
 	
-	method interpretaBien(cancion) = self.habilidad() > 60 || self.esAutorDe(cancion)
+	method interpretaBien(cancion) = self.habilidad() > 60 || self.esAutorDe(cancion) 
+		|| self.cumpleCondicionesExtra(cancion)
+		
+	method cumpleCondicionesExtra(cancion)
+	
+	method esCompositor() = self.cantidadDeCanciones() >= 1
 
 }
 
@@ -65,7 +70,7 @@ class MusicoDeGrupo inherits Musico{
 		return habilidad			
 	}	
 	
-	override method interpretaBien (cancion) = super(cancion) || cancion.duracion() > 300
+	override method cumpleCondicionesExtra(cancion) = cancion.duracion() > 300
 	
 	method cobraPor ( presentacion ) {
 		if ( self.tocaSolo(presentacion) )
@@ -91,9 +96,9 @@ class VocalistaPopular inherits Musico{
 			return habilidad - 20
 		return habilidad		
 	}
-	
-	override method interpretaBien ( cancion ) = super(cancion) || cancion.letraTienePalabra(palabraClave)
 		
+	override method cumpleCondicionesExtra(cancion) = cancion.letraTienePalabra(palabraClave)
+	
 	method cobraPor ( presentacion ) {
 		if ( presentacion.esEnLugarConcurrido() )
 			return 500
@@ -112,13 +117,14 @@ object luisAlberto inherits Musico(null, 8) {
 	
 	override method habilidad () = (guitarra.valor() * habilidad).min(100)
 		
-	override method interpretaBien ( cancion ) = true
+	override method cumpleCondicionesExtra(cancion) = true
 	
 	method cobraPor ( presentacion ) {
 		if ( presentacion.fecha() <= ( new Date(30,9,2017) ) )
 			return 1000
 		return 1200
 	}
+
 }
 
 /*PRECENTACIONES
@@ -148,6 +154,8 @@ class Presentacion {
 	}
 	
 	method esEnLugarConcurrido () = lugar.esConcurrido(fecha);
+	
+	method participaElMusico(musico) = musicos.contains(musico)
 }
 
 
@@ -164,7 +172,7 @@ object pdpalooza inherits Presentacion ([], new Date(15,12,2017), lunaPark) {
 	method checkearCriterio(musico){
 		if ( musico.habilidad() <= 70 )
 			throw new UserException("La habilidad del musico es menor o igual a 70")
-		if ( musico.cantidadDeCanciones() < 1 )
+		if ( !musico.esCompositor() )
 			throw new UserException("El musico no tiene canciones compuestas")
 		if ( !musico.interpretaBien(aliciaEnElPais) )
 			throw new UserException("El musico no interpreta bien la cancion 'Alicia en el Pais")
@@ -247,7 +255,7 @@ class Cancion{
 		duracion = _duracion
 		letra = _letra	
 	}
-	
+	 
 	method nombre() = nombre
 	method duracion() = duracion
 	method letra() = letra
@@ -255,9 +263,6 @@ class Cancion{
 	method largoDelTitulo() = self.nombre().size()
 	method esCorta() = duracion < 180
 	method letraTienePalabra(palabra) = letra.toLowerCase().contains(palabra.toLowerCase())
-	method duraMasQue(otraCancion) = duracion >= otraCancion.duracion()
-	method letraMasLargaQue(otraCancion) = self.largo() >= otraCancion.largo()
-	method tituloMasLargoQue(otraCancion) = self.largoDelTitulo() >= otraCancion.largoDelTitulo()
 }
 
 class Remix inherits Cancion{
@@ -269,6 +274,8 @@ class Remix inherits Cancion{
 		letra = "mueve tu cuerpo baby " + _cancionOriginal.letra() + " yeah oh yeah"
 	}
 	
+	override method letra() = "mueve tu cuerpo baby " + cancionOriginal.letra() + " yeah oh yeah"
+	override method duracion() = cancionOriginal.duracion() * 3
 }
 
 class Mashup inherits Cancion{
@@ -280,6 +287,8 @@ class Mashup inherits Cancion{
 		letra = _canciones.fold("", {inicial, cancion => inicial + cancion.letra() + " "}).trim()
 	}
 	
+	override method letra() = canciones.fold("", {inicial, cancion => inicial + cancion.letra() + " "}).trim()
+	override method duracion() = canciones.max{ cancion => cancion.duracion() }.duracion()
 }
 
 
@@ -311,21 +320,21 @@ class Album{
 	method tieneBuenasVentas() = unidadesVendidas * 100 / unidadesSalieronALaVenta > 75
 	method cancionMasLarga() = canciones.max{cancion => cancion.largo()}
 	method cancionMasLarga(criterio) {
-		return canciones.max{cancion => criterio.aplicarA(cancion)}
+		return canciones.max(criterio)
 	}
 }
 
 /*Criterios de comparacion
 /---------------------------------------------------------------------------*/
 
-object criterioDuracion{	
-	method aplicarA(cancion) = cancion.duracion()
+object criterioDuracion{
+	method apply(cancion) = cancion.duracion()
 }
 
 object criterioLargoLetra{	
-	method aplicarA(cancion) = cancion.largo()
+	method apply(cancion) = cancion.largo()
 }
 
 object criterioLargoTitulo{	
-	method aplicarA(cancion) = cancion.largoDelTitulo()
+	method apply(cancion) = cancion.largoDelTitulo()
 }
