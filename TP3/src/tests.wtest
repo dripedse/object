@@ -245,11 +245,6 @@ describe "Tests primera entrega" {
 		assert.equals(eres, laSole.cancionMasLarga(criterioLargoLetra))
 	}	
 
-	test "La canción más larga del álbum “La Sole”"{
-		assert.equals(eres, laSole.cancionMasLarga{can => can.largo()})
-	}	
-	
-	
 	test "El remix de 'La Familia' dura 792 segundos"{
 		assert.equals(792, remixLaFamilia.duracion())
 	}
