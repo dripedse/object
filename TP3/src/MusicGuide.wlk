@@ -259,10 +259,10 @@ class Cancion{
 	method nombre() = nombre
 	method duracion() = duracion
 	method letra() = letra
-	method largo() = letra.words().size()
+	method largo() = self.letra().words().size()
 	method largoDelTitulo() = self.nombre().size()
-	method esCorta() = duracion < 180
-	method letraTienePalabra(palabra) = letra.toLowerCase().contains(palabra.toLowerCase())
+	method esCorta() = self.duracion() < 180
+	method letraTienePalabra(palabra) = self.letra().toLowerCase().contains(palabra.toLowerCase())
 }
 
 class Remix inherits Cancion{
@@ -270,8 +270,6 @@ class Remix inherits Cancion{
 	
 	constructor(_nombre, _cancionOriginal) = super(_nombre, 0, "") {
 		cancionOriginal = _cancionOriginal
-		duracion = _cancionOriginal.duracion() * 3
-		letra = "mueve tu cuerpo baby " + _cancionOriginal.letra() + " yeah oh yeah"
 	}
 	
 	override method letra() = "mueve tu cuerpo baby " + cancionOriginal.letra() + " yeah oh yeah"
@@ -283,8 +281,6 @@ class Mashup inherits Cancion{
 	
 	constructor(_nombre, _canciones) = super(_nombre, 0, "") {
 		canciones = _canciones
-		duracion = _canciones.max{ cancion => cancion.duracion() }.duracion()
-		letra = _canciones.fold("", {inicial, cancion => inicial + cancion.letra() + " "}).trim()
 	}
 	
 	override method letra() = canciones.fold("", {inicial, cancion => inicial + cancion.letra() + " "}).trim()
