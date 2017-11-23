@@ -76,7 +76,7 @@ class Musico {
 }
 
 class MusicoDeGrupo inherits Musico{
-	var bonusGrupo = 3300
+	var bonusGrupo
 	
 	constructor(_grupo, _habilidad, _tipoDeEjecucion, _tipoDeCobro, _bonusGrupo) = 
 	super(_grupo, _habilidad, _tipoDeEjecucion, _tipoDeCobro) {
@@ -145,7 +145,7 @@ class Larguero {
 }
 
 object imparero {
-	method interpretaBien(cancion) = (cancion.duracion() % 2) != 0 
+	method interpretaBien(cancion) = !cancion.duracion().even()
 }
 
 /*FORMAS DE COBRAR
@@ -338,7 +338,7 @@ class Cancion{
 	constructor (_nombre, _duracion, _letra){
 		nombre = _nombre
 		duracion = _duracion
-		letra = _letra	
+		letra = _letra
 	}
 	 
 	method nombre() = nombre
@@ -347,7 +347,7 @@ class Cancion{
 	method largo() = self.letra().words().size()
 	method largoDelTitulo() = self.nombre().size()
 	method esCorta() = self.duracion() < 180
-	method letraTienePalabra(palabra) = self.letra().toLowerCase().contains(palabra.toLowerCase())
+	method letraTienePalabra(palabra) = self.letra().toLowerCase().words().contains(palabra.toLowerCase())
 }
 
 class Remix inherits Cancion{
@@ -425,27 +425,27 @@ object criterioLargoTitulo{
 class Banda{
 	const musicos = []
 	const discos = []
-	var cobranzaRepresentante
+	var representante
 	
-	constructor (_musicos, _discos, _cobranzaRepresentante){
+	constructor (_musicos, _discos, _representante){
 		musicos = _musicos
 		discos = _discos
-		cobranzaRepresentante = _cobranzaRepresentante	
+		representante = _representante	
 	}
 	
 	method habilidad() = musicos.sum{ musico => musico.habilidad() } * 1.1
 	
 	method cobraPor(presentacion) = 
 		musicos.sum{ 
-			musico => musico.grupo(self); musico.cobraPor(presentacion)
-		} + cobranzaRepresentante
+			musico => musico.cobraPor(presentacion)
+		} + representante.cobra()
 		
 	method interpretaBien(cancion) = musicos.all{ musico => musico.interpretaBien(cancion) }
 }
 
-/*
-Representante
-/---------------------------------------------------------------------------
+
+/*Representante
+/*---------------------------------------------------------------------------*/
 class Representante{
 	var pesos
 	
@@ -454,4 +454,4 @@ class Representante{
 	}
 	
 	method cobra() = pesos
-}*/
+}

@@ -37,14 +37,14 @@ describe "Tests primera entrega" {
 	/*MUSICOS
 	/**************************************************************************/	
 	var joaquin = new MusicoDeGrupo("Pimpinela", 20, new Larguero(300), new CobraSolitario(100), 5)
-	var lucia = new VocalistaPopular("Pimpinela", 70, new Palabrero("familia"), new CobraPorCapacidad(500,5000))
+	var lucia = new VocalistaPopular("Pimpinela", 70, new Palabrero("​familia"), new CobraPorCapacidad(500,5000))
 	var soledad = new VocalistaPopular(null, 55, new Palabrero("amor"), new CobraSolitario(6000))
 	var kike = new MusicoDeGrupo(null, 60, imparero, new CobraPorInflacion(4000,50,new Date(8,1,2018)), 20)
 
 	/*BANDAS
 	/**************************************************************************/
-	var pimpisole = new Banda([soledad,joaquin,lucia],[],1982)
-	var elEternoRetorno = new Banda([kike,luisAlberto],[],500)
+	var pimpisole = new Banda([soledad,joaquin,lucia],[],new Representante(1982))
+	var elEternoRetorno = new Banda([kike,luisAlberto],[],new Representante(500))
 	
 	/*PRESENTACIONES
 	/**************************************************************************/
